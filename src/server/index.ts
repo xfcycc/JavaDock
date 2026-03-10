@@ -2,7 +2,7 @@
  * JavaDock 服务端入口
  * @author caiguoyu
  * @date 2026/3/10
- * 单进程：同时托管 REST API 与前端静态资源
+ * 单进程：开发模式内嵌 Vite middleware（支持 HMR），生产模式静态托管
  * 端口：7091（可通过环境变量 PORT 覆盖）
  */
 import express from 'express';
@@ -27,25 +27,37 @@ app.use('/api/docker', dockerRoutes);
 app.use('/api/java', javaRoutes);
 app.use('/api/scripts', scriptsRoutes);
 
-// ─── 生产模式托管前端静态文件 ────────────────────────────────────────────────────
-if (!IS_DEV) {
-  // dist 目录结构：dist/server/index.js, dist/public/...
-  // 所以 __dirname = dist/server，public = dist/public = ../public
-  const staticPath = path.join(__dirname, '../public');
-  app.use(express.static(staticPath));
-  // SPA fallback：所有非 API 路由都返回 index.html
-  app.get('*', (req, res) => {
-    if (!req.path.startsWith('/api')) {
-      res.sendFile(path.join(staticPath, 'index.html'));
+async function bootstrap() {
+  if (IS_DEV) {
+    /* 开发模式：将 Vite 以 middleware 模式嵌入 Express，保留完整 HMR 能力 */
+    const { createServer: createViteServer } = await import('vite');
+    const vite = await createViteServer({
+      server: { middlewareMode: true },
+      appType: 'spa',
+    });
+    app.use(vite.middlewares);
+  } else {
+    /* 生产模式：托管 vite build 产物 dist/public */
+    // dist 目录结构：dist/server/index.js, dist/public/...
+    // __dirname = dist/server，所以 public = ../public
+    const staticPath = path.join(__dirname, '../public');
+    app.use(express.static(staticPath));
+    // SPA fallback：非 API 路由统一返回 index.html
+    app.get('*', (req, res) => {
+      if (!req.path.startsWith('/api')) {
+        res.sendFile(path.join(staticPath, 'index.html'));
+      }
+    });
+  }
+
+  // ─── 启动 ────────────────────────────────────────────────────────────────────
+  app.listen(PORT, () => {
+    console.log(`\n  ⚓  JavaDock 已启动`);
+    console.log(`  →  http://localhost:${PORT}`);
+    if (!IS_DEV) {
+      console.log(`\n  提示：在浏览器中访问上述地址即可使用\n`);
     }
   });
 }
 
-// ─── 启动 ──────────────────────────────────────────────────────────────────────
-app.listen(PORT, () => {
-  console.log(`\n  ⚓  JavaDock 已启动`);
-  console.log(`  →  http://localhost:${PORT}`);
-  if (!IS_DEV) {
-    console.log(`\n  提示：在浏览器中访问上述地址即可使用\n`);
-  }
-});
+bootstrap();

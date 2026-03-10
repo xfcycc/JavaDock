@@ -2,8 +2,8 @@
  * Vite 配置
  * @author caiguoyu
  * @date 2026/3/10
- * 开发模式下将 /api 代理到 Express 服务器（端口 7091）
- * 构建产物输出到 dist/public，由 Express 在生产模式下静态托管
+ * 开发模式：Vite 以 middleware 模式嵌入 Express，无需独立端口与代理
+ * 生产构建产物输出到 dist/public，由 Express 静态托管
  */
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
@@ -14,15 +14,6 @@ export default defineConfig({
   build: {
     outDir: 'dist/public',
     emptyOutDir: true,
-  },
-  server: {
-    port: 5173,
-    proxy: {
-      '/api': {
-        target: 'http://localhost:7091',
-        changeOrigin: true,
-      },
-    },
   },
   resolve: {
     alias: {

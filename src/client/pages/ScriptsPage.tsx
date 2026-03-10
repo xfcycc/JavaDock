@@ -88,7 +88,7 @@ export default function ScriptsPage() {
     if (type === 'info') return 'text-blue-300';
     if (type === 'done') return 'text-green-400 font-medium';
     if (type === 'error') return 'text-red-500';
-    return 'text-slate-300';
+    return 'text-slate-600 dark:text-slate-300';
   }
 
   return (
@@ -108,15 +108,15 @@ export default function ScriptsPage() {
 
       <div className="flex flex-1 overflow-hidden">
         {/* 左侧脚本列表 */}
-        <div className="w-72 shrink-0 border-r border-slate-800 flex flex-col">
-          <div className="px-4 py-3 text-xs text-slate-500 font-medium border-b border-slate-800">
+        <div className="w-72 shrink-0 border-r border-slate-200 dark:border-slate-800 flex flex-col">
+          <div className="px-4 py-3 text-xs text-slate-500 font-medium border-b border-slate-200 dark:border-slate-800">
             脚本列表
           </div>
 
           {loading ? (
             <PageLoader text="加载脚本..." />
           ) : scripts.length === 0 ? (
-            <div className="flex-1 flex flex-col items-center justify-center text-slate-600 p-4 text-center">
+            <div className="flex-1 flex flex-col items-center justify-center text-slate-500 dark:text-slate-600 p-4 text-center">
               <Terminal size={32} className="mb-2 opacity-30" />
               <div className="text-sm">尚无脚本</div>
               <Link to="/settings" className="btn-primary mt-3 text-xs">
@@ -130,13 +130,13 @@ export default function ScriptsPage() {
                 <div
                   key={script.id}
                   onClick={() => setSelectedId(script.id)}
-                  className={`px-4 py-3 cursor-pointer border-b border-slate-800/50 hover:bg-slate-800/50 transition-colors ${
+                  className={`px-4 py-3 cursor-pointer border-b border-slate-200 dark:border-slate-800/50 hover:bg-slate-100 dark:hover:bg-slate-800/50 transition-colors ${
                     selectedId === script.id ? 'bg-brand-600/10 border-l-2 border-l-brand-500' : ''
                   }`}
                 >
                   <div className="flex items-center justify-between gap-2">
                     <div className="min-w-0">
-                      <div className="text-sm font-medium text-white truncate">{script.name}</div>
+                      <div className="text-sm font-medium text-slate-900 dark:text-white truncate">{script.name}</div>
                       {script.description && (
                         <div className="text-xs text-slate-500 mt-0.5 truncate">{script.description}</div>
                       )}
@@ -162,11 +162,11 @@ export default function ScriptsPage() {
         </div>
 
         {/* 右侧输出终端 */}
-        <div className="flex-1 flex flex-col bg-[#0d1117]">
+        <div className="flex-1 flex flex-col bg-slate-100 dark:bg-[#0d1117]">
           {/* 终端标题 */}
-          <div className="flex items-center gap-2 px-4 py-2.5 border-b border-slate-800/50 shrink-0">
+          <div className="flex items-center gap-2 px-4 py-2.5 border-b border-slate-200 dark:border-slate-800/50 shrink-0 bg-slate-50 dark:bg-transparent">
             <Terminal size={14} className="text-slate-500" />
-            <span className="text-xs text-slate-400 font-mono">
+            <span className="text-xs text-slate-500 dark:text-slate-400 font-mono">
               {selectedScript ? selectedScript.command : '请选择并执行脚本'}
             </span>
             {runningId && (
@@ -180,7 +180,7 @@ export default function ScriptsPage() {
           {/* 输出内容 */}
           <div className="flex-1 overflow-y-auto px-4 py-3">
             {outputLines.length === 0 ? (
-              <div className="terminal-text text-slate-700 mt-4">
+              <div className="terminal-text text-slate-600 dark:text-slate-700 mt-4">
                 {selectedScript
                   ? `按下 ▶ 执行: ${selectedScript.command}`
                   : '在左侧选择一个脚本并点击 ▶ 执行'}

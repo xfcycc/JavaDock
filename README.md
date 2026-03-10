@@ -39,8 +39,8 @@ npm install
 npm run dev
 ```
 
-- 前端 Vite dev server：http://localhost:5173
-- 后端 Express API：http://localhost:7091
+- 单进程启动，访问：http://localhost:7091
+- Vite 以 middleware 模式内嵌，支持完整 HMR 热更新
 
 ### 生产构建与启动
 
@@ -93,6 +93,8 @@ JAVADOCK_HOME=/custom/path npm start
 | ✅ 完成 | Java 服务管理（启停/编译/日志/内存监控） |
 | ✅ 完成 | 自定义脚本执行（SSE 实时输出） |
 | ✅ 完成 | 卡片式现代 UI（深色主题、响应式布局） |
+| ✅ 完成 | UI 支持切换黑夜/白天模式（侧栏切换、localStorage 持久化） |
+| ✅ 完成 | 单进程开发模式（Vite middleware 内嵌 Express，统一端口 7091） |
 
 ---
 

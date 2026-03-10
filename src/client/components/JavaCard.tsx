@@ -30,11 +30,11 @@ export default function JavaCard({
   const isStarting = service.state === 'starting';
 
   return (
-    <div className={`card p-5 flex flex-col gap-3 hover:border-slate-600 transition-all duration-200 ${loading ? 'opacity-60 pointer-events-none' : ''}`}>
+    <div className={`card p-5 flex flex-col gap-3 hover:border-slate-400 dark:hover:border-slate-600 transition-all duration-200 ${loading ? 'opacity-60 pointer-events-none' : ''}`}>
       {/* 标题 */}
       <div className="flex items-start justify-between gap-2">
         <div className="min-w-0 flex-1">
-          <h3 className="text-white font-semibold text-sm">{service.name}</h3>
+          <h3 className="text-slate-900 dark:text-white font-semibold text-sm">{service.name}</h3>
           {service.description && (
             <p className="text-slate-500 text-xs mt-0.5 truncate">{service.description}</p>
           )}
@@ -81,12 +81,12 @@ export default function JavaCard({
           <span className={service.lastBuildStatus === 'failed' ? 'text-red-500' : 'text-green-500'}>
             {service.lastBuildStatus === 'failed' ? '失败' : '成功'}
           </span>
-          <span className="text-slate-700">· {new Date(service.lastBuilt).toLocaleString()}</span>
+          <span className="text-slate-600 dark:text-slate-700">· {new Date(service.lastBuilt).toLocaleString()}</span>
         </div>
       )}
 
       {/* 操作 */}
-      <div className="flex items-center gap-1 pt-2 border-t border-slate-700/50">
+      <div className="flex items-center gap-1 pt-2 border-t border-slate-200 dark:border-slate-700/50">
         {isRunning ? (
           <>
             <button onClick={onStop} className="action-btn text-red-400 hover:bg-red-400/10" title="停止">

@@ -4,13 +4,9 @@
   "description": "Lightweight Docker & Java service manager for Linux/macOS",
   "author": "caiguoyu",
   "license": "MIT",
-  "ts-node": {
-    "project": "tsconfig.server.json"
-  },
   "scripts": {
-    "dev": "concurrently -n server,client -c cyan,green \"npm run dev:server\" \"npm run dev:client\"",
+    "dev": "nodemon",
     "dev:server": "nodemon",
-    "dev:client": "vite",
     "build": "npm run build:client && npm run build:server",
     "build:client": "vite build",
     "build:server": "tsc -p tsconfig.server.json",
@@ -36,7 +32,7 @@
     "nodemon": "^3.0.3",
     "postcss": "^8.4.33",
     "tailwindcss": "^3.4.1",
-    "ts-node": "^10.9.2",
+    "tsx": "^4.21.0",
     "typescript": "^5.3.3",
     "vite": "^5.0.11"
   }

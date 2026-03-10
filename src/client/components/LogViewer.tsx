@@ -25,7 +25,7 @@ function getLineColor(line: string): string {
   if (lower.includes('warn')) return 'text-yellow-400';
   if (lower.includes('info')) return 'text-blue-300';
   if (lower.includes('[build success]') || lower.includes('build success')) return 'text-green-400';
-  return 'text-slate-300';
+  return 'text-slate-600 dark:text-slate-300';
 }
 
 export default function LogViewer({ title, open, onClose, streamUrl, lines: staticLines }: Props) {
@@ -94,38 +94,38 @@ export default function LogViewer({ title, open, onClose, streamUrl, lines: stat
       <div className="flex-1 bg-black/40 backdrop-blur-sm" onClick={onClose} />
 
       {/* 日志侧边栏 */}
-      <div className="w-full max-w-3xl bg-slate-950 border-l border-slate-800 flex flex-col shadow-2xl">
+      <div className="w-full max-w-3xl bg-white dark:bg-slate-950 border-l border-slate-200 dark:border-slate-800 flex flex-col shadow-2xl">
         {/* 头部 */}
-        <div className="flex items-center justify-between px-4 py-3 border-b border-slate-800 shrink-0">
+        <div className="flex items-center justify-between px-4 py-3 border-b border-slate-200 dark:border-slate-800 shrink-0">
           <div>
-            <div className="text-sm font-semibold text-white">{title}</div>
+            <div className="text-sm font-semibold text-slate-900 dark:text-white">{title}</div>
             <div className="text-xs text-slate-500 mt-0.5">{lines.length} 行</div>
           </div>
           <div className="flex items-center gap-1">
             <button
               onClick={() => setPaused(!paused)}
-              className="action-btn text-slate-400 hover:text-slate-200"
+              className="action-btn text-slate-500 dark:text-slate-400 hover:text-slate-800 dark:hover:text-slate-200"
               title={paused ? '继续自动滚动' : '暂停自动滚动'}
             >
               {paused ? <PlayCircle size={16} /> : <PauseCircle size={16} />}
             </button>
             <button
               onClick={() => setLines([])}
-              className="action-btn text-slate-400 hover:text-slate-200"
+              className="action-btn text-slate-500 dark:text-slate-400 hover:text-slate-800 dark:hover:text-slate-200"
               title="清空"
             >
               <Trash2 size={16} />
             </button>
             <button
               onClick={downloadLogs}
-              className="action-btn text-slate-400 hover:text-slate-200"
+              className="action-btn text-slate-500 dark:text-slate-400 hover:text-slate-800 dark:hover:text-slate-200"
               title="下载日志"
             >
               <Download size={16} />
             </button>
             <button
               onClick={onClose}
-              className="action-btn text-slate-400 hover:text-slate-200"
+              className="action-btn text-slate-500 dark:text-slate-400 hover:text-slate-800 dark:hover:text-slate-200"
               title="关闭"
             >
               <X size={16} />
@@ -136,10 +136,10 @@ export default function LogViewer({ title, open, onClose, streamUrl, lines: stat
         {/* 日志内容 */}
         <div
           ref={containerRef}
-          className="flex-1 overflow-y-auto bg-[#0d1117] px-4 py-3"
+          className="flex-1 overflow-y-auto bg-slate-50 dark:bg-[#0d1117] px-4 py-3"
         >
           {lines.length === 0 ? (
-            <div className="text-slate-600 terminal-text">（暂无日志）</div>
+            <div className="text-slate-500 dark:text-slate-600 terminal-text">（暂无日志）</div>
           ) : (
             lines.map((line, i) => (
               <div key={i} className={`terminal-text whitespace-pre-wrap break-all ${getLineColor(line)}`}>
