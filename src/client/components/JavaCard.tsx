@@ -2,12 +2,12 @@
  * Java 服务卡片
  * @author caiguoyu
  * @date 2026/3/10
- * 展示 Java 服务状态，提供启停/重启/编译/日志操作
+ * 展示 Java 服务状态，提供启停/重启/编译/日志/配置文件/编辑操作
  */
 import React from 'react';
 import {
   Play, Square, RefreshCw, Terminal, Hammer,
-  MapPin, Clock, Cpu, FolderOpen,
+  MapPin, Clock, Cpu, FolderOpen, FileCode2, Settings2,
 } from 'lucide-react';
 import StatusBadge from './StatusBadge';
 import { JavaServiceStatus } from '../../../src/shared/types';
@@ -19,11 +19,13 @@ interface Props {
   onRestart: () => void;
   onBuild: () => void;
   onLogs: () => void;
+  onConfig: () => void;
+  onEdit: () => void;
   loading?: boolean;
 }
 
 export default function JavaCard({
-  service, onStart, onStop, onRestart, onBuild, onLogs, loading,
+  service, onStart, onStop, onRestart, onBuild, onLogs, onConfig, onEdit, loading,
 }: Props) {
   const isRunning = service.state === 'running';
   const isBuilding = service.state === 'building';
@@ -124,6 +126,22 @@ export default function JavaCard({
           title="查看日志"
         >
           <Terminal size={14} />
+        </button>
+
+        <button
+          onClick={onConfig}
+          className="action-btn text-slate-400 hover:text-amber-400 hover:bg-amber-400/10"
+          title="配置文件"
+        >
+          <FileCode2 size={14} />
+        </button>
+
+        <button
+          onClick={onEdit}
+          className="action-btn text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 hover:bg-slate-400/10"
+          title="编辑服务"
+        >
+          <Settings2 size={14} />
         </button>
       </div>
     </div>

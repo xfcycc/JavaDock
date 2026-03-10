@@ -39,6 +39,7 @@ export function readConfig(): AppConfig {
     defaultCommands: { ...defaults.defaultCommands, ...(raw.defaultCommands ?? {}) },
     customScripts: raw.customScripts ?? defaults.customScripts,
     javaServices: raw.javaServices ?? defaults.javaServices,
+    adminPassword: raw.adminPassword,
   };
 }
 

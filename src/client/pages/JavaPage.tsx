@@ -2,16 +2,20 @@
  * Java 服务管理页面
  * @author caiguoyu
  * @date 2026/3/10
- * 功能：服务卡片列表、启停/重启/编译、日志查看（SSE 流）
+ * 功能：服务卡片列表、启停/重启/编译、日志查看（SSE 流）、
+ *       一键扫描本机 Java 进程导入、SpringBoot 配置文件编辑、服务快速编辑/删除
  */
 import React, { useCallback, useEffect, useState } from 'react';
-import { Coffee, Plus } from 'lucide-react';
+import { Coffee, Plus, ScanLine } from 'lucide-react';
 import { javaApi } from '../api/client';
 import { JavaServiceStatus } from '../../../src/shared/types';
 import JavaCard from '../components/JavaCard';
 import LogViewer from '../components/LogViewer';
 import PageHeader from '../components/PageHeader';
 import { PageLoader } from '../components/Spinner';
+import JavaScanModal from '../components/JavaScanModal';
+import JavaConfigEditor from '../components/JavaConfigEditor';
+import JavaServiceEditModal from '../components/JavaServiceEditModal';
 import { useToast } from '../App';
 import { Link } from 'react-router-dom';
 
@@ -24,6 +28,13 @@ export default function JavaPage() {
   const [logServiceId, setLogServiceId] = useState<string | null>(null);
   const [buildLogLines, setBuildLogLines] = useState<string[]>([]);
   const [buildLogOpen, setBuildLogOpen] = useState(false);
+
+  // 扫描弹窗
+  const [scanOpen, setScanOpen] = useState(false);
+  // 配置文件编辑器：当前操作的服务
+  const [configService, setConfigService] = useState<JavaServiceStatus | null>(null);
+  // 编辑/删除弹窗：当前操作的服务
+  const [editService, setEditService] = useState<JavaServiceStatus | null>(null);
 
   const setIdLoading = (id: string, val: boolean) =>
     setLoadingIds((prev) => {
@@ -56,7 +67,7 @@ export default function JavaPage() {
     try {
       await fn();
       showToast('success', label + ' 成功');
-      setTimeout(refresh, 1500); // 稍作等待后刷新状态
+      setTimeout(refresh, 1500);
     } catch (e: any) {
       showToast('error', `${label}失败：${e.message}`);
     } finally {
@@ -103,6 +114,15 @@ export default function JavaPage() {
         subtitle={`共 ${services.length} 个服务，${services.filter((s) => s.state === 'running').length} 个运行中`}
         onRefresh={refresh}
         loading={loading}
+        actions={
+          <button
+            onClick={() => setScanOpen(true)}
+            className="flex items-center gap-2 px-3 py-2 text-sm rounded-lg bg-blue-600/10 text-blue-600 dark:text-blue-400 hover:bg-blue-600/20 transition-colors border border-blue-600/20"
+          >
+            <ScanLine size={14} />
+            扫描
+          </button>
+        }
       />
 
       <div className="p-6 flex flex-col gap-4 flex-1">
@@ -112,11 +132,20 @@ export default function JavaPage() {
           <div className="flex flex-col items-center justify-center h-64 text-slate-500">
             <Coffee size={48} className="mb-3 opacity-20" />
             <div className="text-sm">尚未配置 Java 服务</div>
-            <div className="text-xs mt-1">请前往设置页面添加服务</div>
-            <Link to="/settings" className="btn-primary mt-4 text-sm">
-              <Plus size={14} />
-              添加服务
-            </Link>
+            <div className="text-xs mt-1">可以扫描本机进程导入，或手动前往设置页面添加</div>
+            <div className="flex gap-2 mt-4">
+              <button
+                onClick={() => setScanOpen(true)}
+                className="flex items-center gap-1.5 px-4 py-2 text-sm rounded-lg bg-blue-600 text-white hover:bg-blue-700 transition-colors"
+              >
+                <ScanLine size={14} />
+                扫描本机进程
+              </button>
+              <Link to="/settings" className="btn-primary text-sm">
+                <Plus size={14} />
+                手动添加
+              </Link>
+            </div>
           </div>
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 gap-4">
@@ -130,6 +159,8 @@ export default function JavaPage() {
                 onRestart={() => act(svc.id, '重启', () => javaApi.restart(svc.id))}
                 onBuild={() => handleBuild(svc.id)}
                 onLogs={() => setLogServiceId(svc.id)}
+                onConfig={() => setConfigService(svc)}
+                onEdit={() => setEditService(svc)}
               />
             ))}
           </div>
@@ -150,6 +181,41 @@ export default function JavaPage() {
         open={!!logServiceId}
         onClose={() => setLogServiceId(null)}
         streamUrl={logServiceId ? `/api/java/services/${logServiceId}/logs/stream` : undefined}
+      />
+
+      {/* 一键扫描本机 Java 进程弹窗 */}
+      <JavaScanModal
+        open={scanOpen}
+        onClose={() => setScanOpen(false)}
+        onImported={() => {
+          showToast('success', '服务已导入');
+          refresh();
+        }}
+      />
+
+      {/* SpringBoot 配置文件编辑器 */}
+      {configService && (
+        <JavaConfigEditor
+          service={configService}
+          open={!!configService}
+          onClose={() => setConfigService(null)}
+          onSaved={() => showToast('success', '配置文件已保存')}
+        />
+      )}
+
+      {/* 服务快速编辑/删除弹窗 */}
+      <JavaServiceEditModal
+        service={editService}
+        open={!!editService}
+        onClose={() => setEditService(null)}
+        onSaved={() => {
+          showToast('success', '服务配置已更新');
+          refresh();
+        }}
+        onDeleted={() => {
+          showToast('success', '服务已删除');
+          refresh();
+        }}
       />
     </div>
   );

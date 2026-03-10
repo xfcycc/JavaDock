@@ -24,5 +24,6 @@ export function createDefaultConfig(): AppConfig {
     defaultCommands: { ...DEFAULT_COMMANDS },
     customScripts: [],
     javaServices: [],
+    adminPassword: undefined,
   };
 }

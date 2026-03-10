@@ -73,6 +73,38 @@ export interface DockerUpdateParams {
 
 // ─── Java 服务相关类型 ─────────────────────────────────────────────────────────
 
+/** 扫描到的本机 Java/SpringBoot 进程 */
+export interface JavaScannedProcess {
+  /** 系统进程 ID */
+  pid: number;
+  /** 监听端口（从命令行参数或 lsof 解析） */
+  port?: number;
+  /** 进程工作目录（lsof 获取） */
+  cwd?: string;
+  /** 可执行 JAR 路径 */
+  jarPath?: string;
+  /** 是否为 SpringBoot 应用 */
+  isSpringBoot: boolean;
+  /** 建议的服务名称 */
+  suggestedName: string;
+  /** 完整命令行 */
+  commandLine: string;
+  /** 是否已在配置中注册（按端口/cwd 比对） */
+  alreadyImported: boolean;
+  /** 已导入时对应的服务 ID */
+  existingServiceId?: string;
+}
+
+/** SpringBoot 配置文件信息 */
+export interface JavaConfigFile {
+  /** 绝对路径 */
+  path: string;
+  /** 文件名（含扩展名） */
+  name: string;
+  /** 文件格式 */
+  type: 'properties' | 'yaml';
+}
+
 /** Java 服务的基础配置（存储于 config.json） */
 export interface JavaService {
   id: string;
@@ -132,6 +164,8 @@ export interface AppConfig {
   defaultCommands: DefaultCommands;
   customScripts: CustomScript[];
   javaServices: JavaService[];
+  /** 管理员密码，用于需要 sudo 的操作（如扫描其他用户进程）。留空则不使用 sudo */
+  adminPassword?: string;
 }
 
 // ─── 通用 API 响应类型 ─────────────────────────────────────────────────────────

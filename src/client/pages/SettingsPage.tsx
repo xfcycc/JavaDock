@@ -6,7 +6,7 @@
 import React, { useEffect, useState } from 'react';
 import {
   Coffee, Globe, Terminal, Zap, Plus, Trash2,
-  Save, Info, ChevronDown, ChevronUp,
+  Save, Info, ChevronDown, ChevronUp, Shield,
 } from 'lucide-react';
 import { settingsApi } from '../api/client';
 import { AppConfig, JavaService, EnvEntry, CustomScript } from '../../../src/shared/types';
@@ -16,13 +16,14 @@ import { useToast } from '../App';
 
 // ─── Tab 导航 ──────────────────────────────────────────────────────────────────
 
-type Tab = 'services' | 'environments' | 'commands' | 'scripts';
+type Tab = 'services' | 'environments' | 'commands' | 'scripts' | 'privilege';
 
 const TABS: Array<{ id: Tab; label: string; icon: React.ReactNode }> = [
   { id: 'services', label: 'Java 服务', icon: <Coffee size={15} /> },
   { id: 'environments', label: '环境变量', icon: <Globe size={15} /> },
   { id: 'commands', label: '默认命令', icon: <Zap size={15} /> },
   { id: 'scripts', label: '自定义脚本', icon: <Terminal size={15} /> },
+  { id: 'privilege', label: '权限', icon: <Shield size={15} /> },
 ];
 
 // ─── 工具函数 ──────────────────────────────────────────────────────────────────
@@ -430,6 +431,30 @@ export default function SettingsPage() {
     </div>
   );
 
+  // ─── 权限（管理员密码，用于 sudo）────────────────────────────────────────────
+  const PrivilegeTab = () => (
+    <div className="flex flex-col gap-4 max-w-lg">
+      <div className="bg-amber-500/10 border border-amber-500/20 rounded-lg px-4 py-3 text-xs text-amber-700 dark:text-amber-300 flex gap-2">
+        <Info size={14} className="shrink-0 mt-0.5" />
+        <span>
+          填写后，扫描本机 Java 进程时会使用 sudo 执行 lsof 等命令，以获取其他用户进程的工作目录与端口。
+          留空则不使用 sudo（仅能识别当前用户进程）。密码仅存于本地配置文件，请勿将配置暴露到公网。
+        </span>
+      </div>
+      <div className="card p-4 flex flex-col gap-2">
+        <label className="form-label">管理员密码（用于 sudo）</label>
+        <input
+          type="password"
+          className="form-input font-mono"
+          autoComplete="current-password"
+          value={config.adminPassword === '********' ? '' : (config.adminPassword ?? '')}
+          onChange={(e) => setConfig({ ...config, adminPassword: e.target.value })}
+          placeholder={config.adminPassword === '********' ? '已设置（输入新密码可修改）' : '留空则不使用 sudo'}
+        />
+      </div>
+    </div>
+  );
+
   return (
     <div className="flex flex-col h-full">
       {/* 标题栏 */}
@@ -470,6 +495,7 @@ export default function SettingsPage() {
         {tab === 'environments' && <EnvTab />}
         {tab === 'commands' && <CommandsTab />}
         {tab === 'scripts' && <ScriptsTab />}
+        {tab === 'privilege' && <PrivilegeTab />}
       </div>
     </div>
   );

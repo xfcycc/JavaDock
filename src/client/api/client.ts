@@ -11,6 +11,9 @@ import type {
   DockerStats,
   DockerUpdateParams,
   JavaServiceStatus,
+  JavaService,
+  JavaScannedProcess,
+  JavaConfigFile,
   CustomScript,
   CommandOutput,
 } from '../../shared/types';
@@ -89,6 +92,22 @@ export const javaApi = {
 
   streamLogs: (id: string, tail = 100): EventSource =>
     new EventSource(`/api/java/services/${id}/logs/stream?tail=${tail}`),
+
+  /** 扫描本机 Java 进程 */
+  scan: () =>
+    request<JavaScannedProcess[]>('GET', '/java/scan'),
+
+  /** 列出服务目录下的 SpringBoot 配置文件 */
+  listConfigFiles: (id: string) =>
+    request<JavaConfigFile[]>('GET', `/java/services/${id}/config-files`),
+
+  /** 读取配置文件内容 */
+  getConfigFile: (id: string, filePath: string) =>
+    request<{ content: string }>('GET', `/java/services/${id}/config-file?path=${encodeURIComponent(filePath)}`),
+
+  /** 写入配置文件内容 */
+  updateConfigFile: (id: string, filePath: string, content: string) =>
+    request<{ ok: boolean }>('PUT', `/java/services/${id}/config-file?path=${encodeURIComponent(filePath)}`, { content }),
 };
 
 // ─── 设置 API ─────────────────────────────────────────────────────────────────
@@ -102,6 +121,18 @@ export const settingsApi = {
 
   getConfigPath: () =>
     request<{ path: string }>('GET', '/settings/path'),
+
+  /** 新增单个 Java 服务（导入扫描结果） */
+  addJavaService: (service: Omit<JavaService, 'id'>) =>
+    request<JavaService>('POST', '/settings/java-services', service),
+
+  /** 更新单个 Java 服务配置 */
+  updateJavaService: (id: string, service: Partial<JavaService>) =>
+    request<JavaService>('PUT', `/settings/java-services/${id}`, service),
+
+  /** 删除单个 Java 服务 */
+  deleteJavaService: (id: string) =>
+    request<{ ok: boolean }>('DELETE', `/settings/java-services/${id}`),
 };
 
 // ─── 脚本 API ─────────────────────────────────────────────────────────────────
