@@ -35,13 +35,13 @@ export default function Modal({ open, onClose, title, children, width = 'max-w-l
         onClick={onClose}
       />
       {/* 对话框 */}
-      <div className={`relative z-50 w-full ${width} bg-slate-900 border border-slate-700 rounded-2xl shadow-2xl flex flex-col max-h-[90vh]`}>
+      <div className={`relative z-50 w-full ${width} bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-2xl shadow-2xl flex flex-col max-h-[90vh]`}>
         {/* 标题栏 */}
-        <div className="flex items-center justify-between px-5 py-4 border-b border-slate-800 shrink-0">
-          <h2 className="text-base font-semibold text-white">{title}</h2>
+        <div className="flex items-center justify-between px-5 py-4 border-b border-slate-200 dark:border-slate-800 shrink-0">
+          <h2 className="text-base font-semibold text-slate-900 dark:text-white">{title}</h2>
           <button
             onClick={onClose}
-            className="text-slate-500 hover:text-slate-300 transition-colors p-0.5 rounded"
+            className="text-slate-500 hover:text-slate-700 dark:hover:text-slate-300 transition-colors p-0.5 rounded"
           >
             <X size={18} />
           </button>
@@ -54,7 +54,7 @@ export default function Modal({ open, onClose, title, children, width = 'max-w-l
 
         {/* 底部操作 */}
         {footer && (
-          <div className="px-5 py-4 border-t border-slate-800 flex items-center justify-end gap-2 shrink-0">
+          <div className="px-5 py-4 border-t border-slate-200 dark:border-slate-800 flex items-center justify-end gap-2 shrink-0">
             {footer}
           </div>
         )}

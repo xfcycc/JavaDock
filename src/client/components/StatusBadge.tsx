@@ -47,14 +47,14 @@ const CONFIG: Record<string, { label: string; dot: string; bg: string; text: str
   exited: {
     label: '已退出',
     dot: 'bg-slate-500',
-    bg: 'bg-slate-700/50 border-slate-600/50',
-    text: 'text-slate-400',
+    bg: 'bg-slate-200 border-slate-300 dark:bg-slate-700/50 dark:border-slate-600/50',
+    text: 'text-slate-600 dark:text-slate-400',
   },
   stopped: {
     label: '已停止',
     dot: 'bg-slate-500',
-    bg: 'bg-slate-700/50 border-slate-600/50',
-    text: 'text-slate-400',
+    bg: 'bg-slate-200 border-slate-300 dark:bg-slate-700/50 dark:border-slate-600/50',
+    text: 'text-slate-600 dark:text-slate-400',
   },
   error: {
     label: '错误',
@@ -71,16 +71,16 @@ const CONFIG: Record<string, { label: string; dot: string; bg: string; text: str
   created: {
     label: '已创建',
     dot: 'bg-slate-600',
-    bg: 'bg-slate-700/50 border-slate-600/50',
-    text: 'text-slate-500',
+    bg: 'bg-slate-200 border-slate-300 dark:bg-slate-700/50 dark:border-slate-600/50',
+    text: 'text-slate-600 dark:text-slate-500',
   },
 };
 
 const DEFAULT_CONFIG = {
   label: '未知',
   dot: 'bg-slate-600',
-  bg: 'bg-slate-700/50 border-slate-600/50',
-  text: 'text-slate-400',
+  bg: 'bg-slate-200 border-slate-300 dark:bg-slate-700/50 dark:border-slate-600/50',
+  text: 'text-slate-600 dark:text-slate-400',
 };
 
 export default function StatusBadge({ status, size = 'sm' }: Props) {

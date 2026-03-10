@@ -34,15 +34,15 @@ export default function Toast({ toast, onClose }: Props) {
   return (
     <div
       className={`flex items-center gap-2.5 px-4 py-3 rounded-xl border 
-        bg-slate-900 ${STYLES[toast.type]} backdrop-blur-sm shadow-xl
+        bg-white dark:bg-slate-900 ${STYLES[toast.type]} backdrop-blur-sm shadow-xl
         transition-all duration-300 max-w-xs
         ${visible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-2'}`}
     >
       {ICONS[toast.type]}
-      <span className="text-sm text-slate-200 flex-1">{toast.message}</span>
+      <span className="text-sm text-slate-800 dark:text-slate-200 flex-1">{toast.message}</span>
       <button
         onClick={onClose}
-        className="text-slate-500 hover:text-slate-300 transition-colors ml-1"
+        className="text-slate-500 hover:text-slate-700 dark:hover:text-slate-300 transition-colors ml-1"
       >
         <X size={14} />
       </button>

@@ -14,7 +14,7 @@ interface Props {
 
 export default function Spinner({ size = 16, className = '', text }: Props) {
   return (
-    <div className={`flex items-center gap-2 text-slate-400 ${className}`}>
+    <div className={`flex items-center gap-2 text-slate-500 dark:text-slate-400 ${className}`}>
       <Loader2 size={size} className="animate-spin" />
       {text && <span className="text-sm">{text}</span>}
     </div>

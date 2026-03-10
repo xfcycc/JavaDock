@@ -49,18 +49,18 @@ function ServiceForm({
         <div className="flex items-center gap-2">
           <button
             onClick={() => setExpanded(!expanded)}
-            className="text-slate-400 hover:text-slate-200"
+            className="text-slate-500 dark:text-slate-400 hover:text-slate-800 dark:hover:text-slate-200"
           >
             {expanded ? <ChevronUp size={16} /> : <ChevronDown size={16} />}
           </button>
-          <span className="text-sm font-medium text-white">
+          <span className="text-sm font-medium text-slate-900 dark:text-white">
             {service.name || '（新服务）'}
           </span>
           {service.port && (
             <span className="text-xs text-slate-500 font-mono">:{service.port}</span>
           )}
         </div>
-        <button onClick={onRemove} className="action-btn text-slate-600 hover:text-red-400">
+        <button onClick={onRemove} className="action-btn text-slate-500 dark:text-slate-600 hover:text-red-400">
           <Trash2 size={14} />
         </button>
       </div>
@@ -227,7 +227,7 @@ export default function SettingsPage() {
             ],
           })
         }
-        className="btn-secondary justify-center py-2.5 border border-dashed border-slate-700 rounded-xl"
+        className="btn-secondary justify-center py-2.5 border border-dashed border-slate-400 dark:border-slate-700 rounded-xl"
       >
         <Plus size={15} /> 添加服务
       </button>
@@ -278,7 +278,7 @@ export default function SettingsPage() {
               onClick={() =>
                 setConfig({ ...config, environments: config.environments.filter((_, idx) => idx !== i) })
               }
-              className="action-btn text-slate-600 hover:text-red-400"
+              className="action-btn text-slate-500 dark:text-slate-600 hover:text-red-400"
             >
               <Trash2 size={14} />
             </button>
@@ -293,7 +293,7 @@ export default function SettingsPage() {
             environments: [...config.environments, { id: genId(), name: '', value: '' }],
           })
         }
-        className="btn-secondary justify-center py-2.5 border border-dashed border-slate-700 rounded-xl"
+        className="btn-secondary justify-center py-2.5 border border-dashed border-slate-400 dark:border-slate-700 rounded-xl"
       >
         <Plus size={15} /> 添加环境变量
       </button>
@@ -361,7 +361,7 @@ export default function SettingsPage() {
                     customScripts: config.customScripts.filter((_, idx) => idx !== i),
                   })
                 }
-                className="action-btn text-slate-600 hover:text-red-400"
+                className="action-btn text-slate-500 dark:text-slate-600 hover:text-red-400"
               >
                 <Trash2 size={14} />
               </button>
@@ -423,7 +423,7 @@ export default function SettingsPage() {
             ],
           })
         }
-        className="btn-secondary justify-center py-2.5 border border-dashed border-slate-700 rounded-xl"
+        className="btn-secondary justify-center py-2.5 border border-dashed border-slate-400 dark:border-slate-700 rounded-xl"
       >
         <Plus size={15} /> 添加脚本
       </button>
@@ -433,11 +433,11 @@ export default function SettingsPage() {
   return (
     <div className="flex flex-col h-full">
       {/* 标题栏 */}
-      <div className="flex items-center justify-between px-6 py-5 border-b border-slate-800/80 bg-slate-900/30 shrink-0">
+      <div className="flex items-center justify-between px-6 py-5 border-b border-slate-200 dark:border-slate-800/80 bg-white/60 dark:bg-slate-900/30 shrink-0 backdrop-blur-sm">
         <div>
-          <h1 className="text-lg font-bold text-white">设置</h1>
+          <h1 className="text-lg font-bold text-slate-900 dark:text-white">设置</h1>
           {configPath && (
-            <p className="text-slate-600 text-xs mt-0.5 font-mono">{configPath}</p>
+            <p className="text-slate-500 dark:text-slate-600 text-xs mt-0.5 font-mono">{configPath}</p>
           )}
         </div>
         <button onClick={save} disabled={saving} className="btn-primary">
@@ -447,15 +447,15 @@ export default function SettingsPage() {
       </div>
 
       {/* Tab 导航 */}
-      <div className="flex gap-0 px-6 pt-4 border-b border-slate-800/60 shrink-0">
+      <div className="flex gap-0 px-6 pt-4 border-b border-slate-200 dark:border-slate-800/60 shrink-0">
         {TABS.map(({ id, label, icon }) => (
           <button
             key={id}
             onClick={() => setTab(id)}
             className={`flex items-center gap-1.5 px-4 py-2.5 text-sm font-medium border-b-2 transition-colors -mb-px ${
               tab === id
-                ? 'border-brand-500 text-brand-400'
-                : 'border-transparent text-slate-400 hover:text-slate-200'
+                ? 'border-brand-500 text-brand-500 dark:text-brand-400'
+                : 'border-transparent text-slate-500 dark:text-slate-400 hover:text-slate-800 dark:hover:text-slate-200'
             }`}
           >
             {icon}

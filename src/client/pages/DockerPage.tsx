@@ -25,9 +25,9 @@ function InspectModal({ detail, open, onClose }: {
   if (!detail) return null;
 
   const InfoRow = ({ label, value }: { label: string; value: React.ReactNode }) => (
-    <div className="flex gap-3 py-2 border-b border-slate-800/60 text-sm">
+    <div className="flex gap-3 py-2 border-b border-slate-200 dark:border-slate-800/60 text-sm">
       <span className="text-slate-500 w-28 shrink-0">{label}</span>
-      <span className="text-slate-200 break-all">{value}</span>
+      <span className="text-slate-700 dark:text-slate-200 break-all">{value}</span>
     </div>
   );
 
@@ -47,7 +47,7 @@ function InspectModal({ detail, open, onClose }: {
           <InfoRow label="端口映射" value={
             <div className="flex flex-wrap gap-1">
               {detail.ports.map((p, i) => (
-                <span key={i} className="bg-slate-700 px-2 py-0.5 rounded text-xs font-mono">
+                <span key={i} className="bg-slate-200 dark:bg-slate-700 px-2 py-0.5 rounded text-xs font-mono text-slate-800 dark:text-slate-200">
                   {p.ip && `${p.ip}:`}{p.publicPort ? `${p.publicPort}→${p.privatePort}` : p.privatePort}/{p.type}
                 </span>
               ))}
@@ -58,9 +58,9 @@ function InspectModal({ detail, open, onClose }: {
         {detail.env.length > 0 && (
           <div className="py-2">
             <div className="text-slate-500 text-sm mb-2">环境变量</div>
-            <div className="bg-slate-900 rounded-lg p-3 max-h-40 overflow-y-auto">
+            <div className="bg-slate-100 dark:bg-slate-900 rounded-lg p-3 max-h-40 overflow-y-auto">
               {detail.env.map((e, i) => (
-                <div key={i} className="terminal-text text-slate-300">{e}</div>
+                <div key={i} className="terminal-text text-slate-600 dark:text-slate-300">{e}</div>
               ))}
             </div>
           </div>
@@ -71,7 +71,7 @@ function InspectModal({ detail, open, onClose }: {
             <div className="text-slate-500 text-sm mb-2">挂载点</div>
             <div className="space-y-1">
               {detail.mounts.map((m, i) => (
-                <div key={i} className="text-xs terminal-text text-slate-400">
+                <div key={i} className="text-xs terminal-text text-slate-600 dark:text-slate-400">
                   {m.source} → {m.destination} [{m.type}, {m.rw ? 'rw' : 'ro'}]
                 </div>
               ))}

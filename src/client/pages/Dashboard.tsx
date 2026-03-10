@@ -26,8 +26,8 @@ function StatCard({ icon, label, value, sub, color }: StatCardProps) {
         {icon}
       </div>
       <div>
-        <div className="text-2xl font-bold text-white">{value}</div>
-        <div className="text-slate-400 text-sm">{label}</div>
+        <div className="text-2xl font-bold text-slate-900 dark:text-white">{value}</div>
+        <div className="text-slate-500 dark:text-slate-400 text-sm">{label}</div>
         {sub && <div className="text-slate-600 text-xs mt-0.5">{sub}</div>}
       </div>
     </div>
@@ -64,7 +64,7 @@ export default function Dashboard() {
       {/* 标题 */}
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-xl font-bold text-white">总览</h1>
+          <h1 className="text-xl font-bold text-slate-900 dark:text-white">总览</h1>
           <p className="text-slate-500 text-sm mt-0.5">
             {new Date().toLocaleString('zh-CN', { weekday: 'long', month: 'long', day: 'numeric' })}
           </p>
@@ -108,7 +108,7 @@ export default function Dashboard() {
       {/* 最近容器 */}
       <section>
         <div className="flex items-center justify-between mb-3">
-          <h2 className="text-sm font-semibold text-slate-300">Docker 容器</h2>
+          <h2 className="text-sm font-semibold text-slate-600 dark:text-slate-300">Docker 容器</h2>
           <Link to="/docker" className="text-xs text-brand-400 hover:text-brand-300 flex items-center gap-1">
             查看全部 <ArrowRight size={12} />
           </Link>
@@ -125,7 +125,7 @@ export default function Dashboard() {
           <div className="card overflow-hidden">
             <table className="w-full text-sm">
               <thead>
-                <tr className="border-b border-slate-700/50">
+                <tr className="border-b border-slate-200 dark:border-slate-700/50">
                   <th className="text-left px-4 py-2.5 text-slate-500 font-medium text-xs">名称</th>
                   <th className="text-left px-4 py-2.5 text-slate-500 font-medium text-xs">镜像</th>
                   <th className="text-left px-4 py-2.5 text-slate-500 font-medium text-xs">端口</th>
@@ -134,13 +134,13 @@ export default function Dashboard() {
               </thead>
               <tbody>
                 {containers.slice(0, 8).map((c) => (
-                  <tr key={c.id} className="border-b border-slate-800/50 hover:bg-slate-800/30">
-                    <td className="px-4 py-2.5 text-white font-medium">{c.name}</td>
-                    <td className="px-4 py-2.5 text-slate-400 font-mono text-xs truncate max-w-[180px]">{c.image}</td>
+                  <tr key={c.id} className="border-b border-slate-100 dark:border-slate-800/50 hover:bg-slate-50 dark:hover:bg-slate-800/30">
+                    <td className="px-4 py-2.5 text-slate-900 dark:text-white font-medium">{c.name}</td>
+                    <td className="px-4 py-2.5 text-slate-500 dark:text-slate-400 font-mono text-xs truncate max-w-[180px]">{c.image}</td>
                     <td className="px-4 py-2.5">
                       <div className="flex gap-1 flex-wrap">
                         {c.ports.slice(0, 2).map((p, i) => (
-                          <span key={i} className="bg-slate-700/60 text-slate-300 text-xs px-1.5 py-0.5 rounded font-mono">
+                          <span key={i} className="bg-slate-200 dark:bg-slate-700/60 text-slate-700 dark:text-slate-300 text-xs px-1.5 py-0.5 rounded font-mono">
                             {p.publicPort ? `${p.publicPort}:${p.privatePort}` : p.privatePort}
                           </span>
                         ))}
@@ -161,7 +161,7 @@ export default function Dashboard() {
       {services.length > 0 && (
         <section>
           <div className="flex items-center justify-between mb-3">
-            <h2 className="text-sm font-semibold text-slate-300">Java 服务</h2>
+            <h2 className="text-sm font-semibold text-slate-600 dark:text-slate-300">Java 服务</h2>
             <Link to="/java" className="text-xs text-brand-400 hover:text-brand-300 flex items-center gap-1">
               查看全部 <ArrowRight size={12} />
             </Link>
@@ -170,7 +170,7 @@ export default function Dashboard() {
             {services.slice(0, 6).map((svc) => (
               <div key={svc.id} className="card px-4 py-3 flex items-center justify-between gap-3">
                 <div className="min-w-0">
-                  <div className="text-sm font-medium text-white truncate">{svc.name}</div>
+                  <div className="text-sm font-medium text-slate-900 dark:text-white truncate">{svc.name}</div>
                   {svc.port && (
                     <div className="text-xs text-slate-500 font-mono mt-0.5">:{svc.port}</div>
                   )}

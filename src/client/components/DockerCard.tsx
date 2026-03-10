@@ -30,11 +30,11 @@ export default function DockerCard({
   const isRestarting = container.state === 'restarting';
 
   return (
-    <div className={`card p-5 flex flex-col gap-3 hover:border-slate-600 transition-all duration-200 ${loading ? 'opacity-60 pointer-events-none' : ''}`}>
+    <div className={`card p-5 flex flex-col gap-3 hover:border-slate-400 dark:hover:border-slate-600 transition-all duration-200 ${loading ? 'opacity-60 pointer-events-none' : ''}`}>
       {/* 标题行 */}
       <div className="flex items-start justify-between gap-2">
         <div className="min-w-0 flex-1">
-          <h3 className="text-white font-semibold text-sm truncate">{container.name}</h3>
+          <h3 className="text-slate-900 dark:text-white font-semibold text-sm truncate">{container.name}</h3>
           <p className="text-slate-500 text-xs mt-0.5 font-mono truncate flex items-center gap-1">
             <Package size={11} className="shrink-0" />
             {container.image}
@@ -55,7 +55,7 @@ export default function DockerCard({
           {container.ports.slice(0, 4).map((port, i) => (
             <span
               key={i}
-              className="bg-slate-700/60 text-slate-300 text-xs px-2 py-0.5 rounded-md font-mono border border-slate-700"
+              className="bg-slate-200 dark:bg-slate-700/60 text-slate-700 dark:text-slate-300 text-xs px-2 py-0.5 rounded-md font-mono border border-slate-300 dark:border-slate-700"
             >
               {port.publicPort ? `${port.publicPort}→${port.privatePort}` : port.privatePort}/{port.type}
             </span>
@@ -75,7 +75,7 @@ export default function DockerCard({
       )}
 
       {/* 操作按钮 */}
-      <div className="flex items-center gap-1 pt-2 border-t border-slate-700/50">
+      <div className="flex items-center gap-1 pt-2 border-t border-slate-200 dark:border-slate-700/50">
         {isRunning || isRestarting ? (
           <>
             <button
@@ -114,14 +114,14 @@ export default function DockerCard({
         </button>
         <button
           onClick={onInspect}
-          className="action-btn text-slate-400 hover:text-slate-200 hover:bg-slate-700"
+          className="action-btn text-slate-500 dark:text-slate-400 hover:text-slate-800 dark:hover:text-slate-200 hover:bg-slate-200 dark:hover:bg-slate-700"
           title="详情"
         >
           <Eye size={14} />
         </button>
         <button
           onClick={onEdit}
-          className="action-btn text-slate-400 hover:text-slate-200 hover:bg-slate-700"
+          className="action-btn text-slate-500 dark:text-slate-400 hover:text-slate-800 dark:hover:text-slate-200 hover:bg-slate-200 dark:hover:bg-slate-700"
           title="修改参数"
         >
           <Settings2 size={14} />
