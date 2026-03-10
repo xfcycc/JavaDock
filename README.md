@@ -94,7 +94,6 @@ JAVADOCK_HOME=/custom/path npm start
 | ✅ 完成 | 自定义脚本执行（SSE 实时输出） |
 | ✅ 完成 | 卡片式现代 UI（深色主题、响应式布局） |
 | ✅ 完成 | UI 支持切换黑夜/白天模式（侧栏切换、localStorage 持久化） |
-| ✅ 完成 | 单进程开发模式（Vite middleware 内嵌 Express，统一端口 7091） |
 
 ---
 
